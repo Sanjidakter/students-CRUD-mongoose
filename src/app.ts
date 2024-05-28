@@ -1,5 +1,5 @@
 import cors from "cors";
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response, request } from "express";
 import { StudentRoutes } from "./app/modules/student/student.route";
 import { UserRoutes } from "./app/modules/user/user.route";
 
@@ -19,5 +19,17 @@ const getAController = (req: Request, res: Response) => {
 };
 
 app.get("/", getAController);
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  // setting global error handler
+  let statusCode = 500;
+  let message = "something went wrong!";
+
+  return res.status(statusCode).json({
+    success: false,
+    message,
+    error: err,
+  });
+});
 
 export default app;
