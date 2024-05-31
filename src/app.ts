@@ -24,8 +24,7 @@ app.use("/api/v1",router);
 
 
 const getAController = (req: Request, res: Response) => {
-  const a = 10;
-  res.send(a);
+  res.sendStatus(200);
 };
 
 app.get("/", getAController);
