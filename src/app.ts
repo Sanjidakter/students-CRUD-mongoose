@@ -20,7 +20,11 @@ app.use(express.json());
 app.use(cors());
 
 // application routes
-app.use("/api/v1",router);
+app.use("/api/v1", (req, res, next) => {
+  console.log(`Incoming request to ${req.path}`);
+  next();
+}, router);
+
 
 
 const getAController = (req: Request, res: Response) => {
