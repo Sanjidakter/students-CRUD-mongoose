@@ -1,41 +1,34 @@
-import cors from "cors";
-import express, {
-  Application,
-  NextFunction,
-  Request,
-  Response,
-  request,
-} from "express";
-import { StudentRoutes } from "./app/modules/student/student.route";
-import { UserRoutes } from "./app/modules/user/user.route";
-import globalErrorHandaler from "./middlewares/globalErrorhandaler";
-import notFound from "./middlewares/notFound";
-import router from "./app/routes";
-
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express, { Application } from 'express';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
+// import notFound from './app/middlewares/';
+import router from './app/routes';
 
 const app: Application = express();
 
 //parsers
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({ origin: ['http://localhost:5173'] }));
 
 // application routes
-app.use("/api/v1", (req, res, next) => {
-  console.log(`Incoming request to ${req.path}`);
-  next();
-}, router);
+app.use('/api/v1', router);
 
+// const test = async (req: Request, res: Response) => {
+//   const a = 10;
+//   res.send(a);
+// };
 
+// app.get('/', test);
 
-const getAController = (req: Request, res: Response) => {
-  res.sendStatus(200);
-};
+app.use(globalErrorHandler);
 
-app.get("/", getAController);
-
-app.use(globalErrorHandaler);
-
-// Not Found
-app.use(notFound)
+//Not Found
+// app.use(notFound);
 
 export default app;
